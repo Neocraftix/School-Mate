@@ -1329,7 +1329,7 @@
 
                     <div class="form-footer">
                         <p>Already have an account?
-                            <a href="" class="login-link">Sign In</a>
+                            <a href="{{ route('school.loginIndex') }}" class="login-link">Sign In</a>
                         </p>
                         <div class="security-note">
                             <span class="security-icon">🔐</span>
