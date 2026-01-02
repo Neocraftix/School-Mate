@@ -123,4 +123,11 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'app_data_status_active' => env('APP_DATA_STATUS_ACTIVE', 1),
+
+    'app_data_status_inactive' => env('APP_DATA_STATUS_INACTIVE', 2),
+
+    'free_plan_name' => env('FREE_PLAN_NAME', 'Free plan'),
+
+    'free_plan_time_duration' => env('FREE_PLAN_TIME_DURATION', 7),
 ];
