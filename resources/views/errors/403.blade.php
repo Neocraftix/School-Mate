@@ -976,7 +976,7 @@
                 </div>
 
                 <!-- Quick Help Section -->
-                <div class="info-section">
+                {{-- <div class="info-section">
                     <h2 class="section-title">
                         <span class="section-title-icon">💡</span>
                         Quick Help
@@ -998,10 +998,10 @@
                             <div class="info-description">Learn about different permission levels in our system</div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- FAQ Section -->
-                <div class="faq-section" id="faq">
+                {{-- <div class="faq-section" id="faq">
                     <h2 class="section-title">
                         <span class="section-title-icon">❔</span>
                         Frequently Asked Questions
@@ -1067,11 +1067,11 @@
                             administrator. They will evaluate your request based on your role and responsibilities.
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
 
                 <!-- Contact Section -->
-                <div class="contact-section" id="contact">
+                {{-- <div class="contact-section" id="contact">
                     <div class="contact-content">
                         <h2 class="contact-title">📞 Need Help?</h2>
                         <p class="contact-description">
@@ -1093,11 +1093,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Footer -->
-            <div class="footer">
+            {{-- <div class="footer">
                 <p class="footer-text">© 2024 Learning Management System. All rights reserved.</p>
                 <div class="footer-links">
                     <a href="#" class="footer-link">Privacy Policy</a>
@@ -1105,7 +1105,7 @@
                     <a href="#" class="footer-link">Help Center</a>
                     <a href="#" class="footer-link">Documentation</a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </body>
 @endsection

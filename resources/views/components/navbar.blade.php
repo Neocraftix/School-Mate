@@ -1,13 +1,14 @@
 <!-- Navigation Bar -->
 <nav class="navbar">
     <div class="nav-container">
-        <div class="nav-logo" onclick="window.location.href='{{ url('/home') }}'">
+        <div class="nav-logo" onclick="window.location.href='{{ url('/school-dashboard') }}'">
             <span class="logo-icon">🏫</span>
             <span class="logo-text">School Mate</span>
         </div>
 
         <div class="nav-menu" id="nav-menu">
-            <a href="{{ url('/home') }}" class="nav-link {{ request()->is('home*') ? 'active' : '' }}">
+            <a href="{{ url('/school-dashboard') }}"
+                class="nav-link {{ request()->is('school-dashboard*') ? 'active' : '' }}">
                 <i class="nav-icon">🏠</i>
                 Home
             </a>
@@ -55,7 +56,7 @@
                         <i class="dropdown-icon">⚙️</i>
                         Settings
                     </a>
-                    <a href="">
+                    <a href="{{ route('logout') }}">
                         <i class="dropdown-icon">🚪</i>
                         Logout
                     </a>
@@ -431,30 +432,3 @@
     `;
     document.head.appendChild(style);
 </script>
-
-{{-- 
-Usage Instructions:
-
-1. Save this file as: resources/views/components/navbar.blade.php
-
-2. In your master layout file (resources/views/frontend/layouts/master.blade.php), add:
-   @include('components.navbar')
-
-3. In your page files, just extend the master layout without including navbar:
-   @extends('frontend.layouts.master')
-   @section('content')
-   <!-- Your page content here -->
-   @endsection
-
-4. For authentication, make sure you have:
-   - Auth::check() and Auth::user() available
-   - logout route defined in web.php
-
-5. Features included:
-   - Automatic active page detection
-   - Mobile responsive
-   - Authentication integration
-   - Notification badges (optional)
-   - Smooth animations
-   - Clean code structure
---}}

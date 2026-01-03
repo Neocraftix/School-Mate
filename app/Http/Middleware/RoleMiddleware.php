@@ -18,7 +18,7 @@ class RoleMiddleware
     {
         if (!Auth::check()) {
             return redirect()
-                ->route('login')
+                ->route('school.loginIndex')
                 ->withErrors(['login' => 'Please login first']);
         }
 

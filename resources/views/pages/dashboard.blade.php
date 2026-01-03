@@ -383,7 +383,7 @@
         <!-- Page Header -->
         <div class="page-header">
             <div class="header-content">
-                <h1>Ku/Humbulwa Central Collage</h1>
+                <h1>{{ $user->school->school_name }}</h1>
                 <p>Manage your school efficiently with our comprehensive system</p>
             </div>
             <div class="header-stats">
@@ -395,10 +395,10 @@
                     <div class="stat-number">87</div>
                     <div class="stat-label">Teachers</div>
                 </div>
-                <div class="stat-card">
+                {{-- <div class="stat-card">
                     <div class="stat-number">24</div>
                     <div class="stat-label">Classrooms</div>
-                </div>
+                </div> --}}
             </div>
         </div>
 

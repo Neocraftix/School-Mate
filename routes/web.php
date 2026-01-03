@@ -15,5 +15,6 @@ Route::post('/school-registor-post', [RegistrationController::class, 'schoolRegi
 Route::get('/school-login', [AuthController::class, 'schoolLoginIndex'])->name('school.loginIndex');
 
 Route::post('/school-login-post', [AuthController::class, 'schoolLoginPost'])->name('school.login');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/school-dashboard', [DashBoardController::class, 'schoolDashBoardIndex'])->name('school.dashboard')->middleware(['role:Supper Admin,Admin,Data Entry']);

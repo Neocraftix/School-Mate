@@ -24,5 +24,9 @@ class AuthController extends Controller
         return back()->withErrors(['login' => 'Invalid credentials'])->withInput();
     }
 
-    
+    function logout()
+    {
+        Auth::logout();
+        return redirect('/school-login');
+    }
 }
