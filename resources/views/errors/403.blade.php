@@ -924,7 +924,6 @@
     </script>
 @endpush
 
-
 @section('content')
 
     <body>

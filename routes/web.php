@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\LocationController;
@@ -18,3 +19,7 @@ Route::post('/school-login-post', [AuthController::class, 'schoolLoginPost'])->n
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/school-dashboard', [DashBoardController::class, 'schoolDashBoardIndex'])->name('school.dashboard')->middleware(['role:Supper Admin,Admin,Data Entry']);
+
+Route::get('/admin-profile', [AdminProfileController::class, 'schoolAdminProfileIndex'])->name('school.adminProfile')->middleware(['role:Supper Admin,Admin,Data Entry']);
+
+Route::put('admin/profile/update', [AdminProfileController::class, 'schoolAdminProfileUpdate'])->name('school.adminProfileUpdate')->middleware(['role:Supper Admin,Admin,Data Entry']);

@@ -48,7 +48,7 @@
                     <span class="dropdown-arrow">▼</span>
                 </div>
                 <div class="dropdown-content">
-                    <a href="{{ url('/profile') }}">
+                    <a href="{{ route('school.adminProfile') }}">
                         <i class="dropdown-icon">👤</i>
                         Profile
                     </a>
