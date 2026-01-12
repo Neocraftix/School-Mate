@@ -13,7 +13,7 @@ class FurnitureController extends Controller
     {
         $mainCategories = MainFurnitureCategory::all();
         $furnitures = Furniture::all();
-        return view('pages.furniture-inventory', compact('mainCategories','furnitures'));
+        return view('pages.furniture-inventory', compact('mainCategories', 'furnitures'));
     }
 
     public function getSubCategories($mainCategoryId)
@@ -28,8 +28,6 @@ class FurnitureController extends Controller
 
     public function storeFurniture(Request $request)
     {
-
-        // ✅ VALIDATION
         $validated = $request->validate(
             [
                 'furnitureName' => 'required|string|min:3|max:255',
@@ -67,8 +65,6 @@ class FurnitureController extends Controller
             'supplier'                 => $validated['supplier'] ?? null,
         ]);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Furniture added successfully.');
+        return redirect()->back()->with('success', 'Furniture added successfully.');
     }
 }

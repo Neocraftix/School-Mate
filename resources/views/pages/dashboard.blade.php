@@ -407,7 +407,7 @@
             <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">👨‍🎓</div>
-                    <div class="card-badge">Active</div>
+                    {{-- <div class="card-badge">Active</div> --}}
                 </div>
                 <h3>Students</h3>
                 <p>Manage student information, enrollment, and academic records</p>
@@ -420,7 +420,7 @@
             <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">👩‍🏫</div>
-                    <div class="card-badge">Active</div>
+                    {{-- <div class="card-badge">Active</div> --}}
                 </div>
                 <h3>Teachers</h3>
                 <p>Handle teacher profiles, assignments, and class schedules</p>
@@ -433,7 +433,7 @@
             <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">📦</div>
-                    <div class="card-badge">Updated</div>
+                    {{-- <div class="card-badge">Updated</div> --}}
                 </div>
                 <h3>Inventory</h3>
                 <p>Track school supplies, equipment, and resource management</p>
@@ -443,7 +443,7 @@
                 </div>
             </div>
 
-            <div class="nav-card">
+            {{-- <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">🏢</div>
                     <div class="card-badge">Maintained</div>
@@ -454,9 +454,9 @@
                     <span class="card-count">24 rooms</span>
                     <span class="card-arrow">→</span>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="nav-card">
+            {{-- <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">🚌</div>
                     <div class="card-badge">Operational</div>
@@ -467,9 +467,9 @@
                     <span class="card-count">8 vehicles</span>
                     <span class="card-arrow">→</span>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="nav-card">
+            {{-- <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">🏞️</div>
                     <div class="card-badge">Registered</div>
@@ -480,12 +480,12 @@
                     <span class="card-count">5.2 acres</span>
                     <span class="card-arrow">→</span>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="nav-card">
+            <div class="nav-card" onclick="window.location.href='{{ route('furniture.index') }}'">
                 <div class="card-header">
                     <div class="icon">🪑</div>
-                    <div class="card-badge">Catalogued</div>
+                    {{-- <div class="card-badge">Catalogued</div> --}}
                 </div>
                 <h3>Furniture Inventory</h3>
                 <p>Track desks, chairs, tables, and other furniture items</p>
@@ -495,7 +495,7 @@
                 </div>
             </div>
 
-            <div class="nav-card">
+            {{-- <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">⚡</div>
                     <div class="card-badge">Connected</div>
@@ -506,9 +506,9 @@
                     <span class="card-count">3 connections</span>
                     <span class="card-arrow">→</span>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="nav-card">
+            {{-- <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">📚</div>
                     <div class="card-badge">Available</div>
@@ -519,11 +519,11 @@
                     <span class="card-count">2,340 books</span>
                     <span class="card-arrow">→</span>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Quick Actions Section -->
-        <div class="quick-actions">
+        {{-- <div class="quick-actions">
             <h2>Quick Actions</h2>
             <div class="actions-grid">
                 <button class="action-btn primary">
@@ -543,6 +543,6 @@
                     Search Records
                 </button>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

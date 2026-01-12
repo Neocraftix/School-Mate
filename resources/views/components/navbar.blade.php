@@ -24,9 +24,9 @@
                 <i class="nav-icon">📦</i>
                 Inventory
             </a>
-            <a href="{{ url('/reports') }}" class="nav-link {{ request()->is('reports*') ? 'active' : '' }}">
-                <i class="nav-icon">📊</i>
-                Reports
+            <a href="{{ route('furniture.index') }}" class="nav-link {{ request()->is('reports*') ? 'active' : '' }}">
+                <i class="nav-icon">🪑</i>
+                Furniture
             </a>
             <a href="{{ url('/settings') }}" class="nav-link {{ request()->is('settings*') ? 'active' : '' }}">
                 <i class="nav-icon">⚙️</i>
