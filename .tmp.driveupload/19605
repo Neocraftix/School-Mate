@@ -1,0 +1,5 @@
+0000000000000000000000000000000000000000 cc1b52fb7b1387f0a94437bb7c1ca3b8ba4d1a06 I.P Yoshan Hasanga Jayathissa <128764310+yoshanhasanga@users.noreply.github.com> 1766232908 +0530	commit (initial): Create Laraval Environment
+cc1b52fb7b1387f0a94437bb7c1ca3b8ba4d1a06 71ba2da159413e0a41e59981f06a7e133874b627 I.P Yoshan Hasanga Jayathissa <128764310+yoshanhasanga@users.noreply.github.com> 1767359409 +0530	commit: Create School Registration
+71ba2da159413e0a41e59981f06a7e133874b627 b3a06891e44a9d1693660eb56ca70bd772d1a093 I.P Yoshan Hasanga Jayathissa <128764310+yoshanhasanga@users.noreply.github.com> 1767377055 +0530	commit: Create Admin Login
+b3a06891e44a9d1693660eb56ca70bd772d1a093 e52a72a195b86f32c5617db3b0b845d223745ecb I.P Yoshan Hasanga Jayathissa <128764310+yoshanhasanga@users.noreply.github.com> 1767438184 +0530	commit: Fix Dashboard bugs & RoleMiddleware bugs
+e52a72a195b86f32c5617db3b0b845d223745ecb e11fbe8d8512368d67081786ac083a8a74117402 I.P Yoshan Hasanga Jayathissa <128764310+yoshanhasanga@users.noreply.github.com> 1767877721 +0530	commit: Create Admin Profile & update Admin profile name
