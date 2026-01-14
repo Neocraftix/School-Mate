@@ -430,7 +430,7 @@
                 </div>
             </div>
 
-            <div class="nav-card">
+            <div class="nav-card" onclick="window.location.href='{{ route('inventories.index') }}'">
                 <div class="card-header">
                     <div class="icon">📦</div>
                     {{-- <div class="card-badge">Updated</div> --}}

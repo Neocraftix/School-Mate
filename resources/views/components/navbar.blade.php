@@ -20,7 +20,7 @@
                 <i class="nav-icon">👩‍🏫</i>
                 Teachers
             </a>
-            <a href="{{ url('/inventory') }}" class="nav-link {{ request()->is('inventory*') ? 'active' : '' }}">
+            <a href="{{ url('/inventories') }}" class="nav-link {{ request()->is('inventory*') ? 'active' : '' }}">
                 <i class="nav-icon">📦</i>
                 Inventory
             </a>

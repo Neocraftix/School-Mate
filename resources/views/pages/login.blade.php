@@ -1138,7 +1138,7 @@
                         <p>Enter your credentials to access your dashboard</p>
                     </div>
 
-                    <form action="{{route('school.login')}}" method="POST" id="signinForm">
+                    <form action="{{ route('school.login') }}" method="POST" id="signinForm">
                         @csrf
                         <div class="form-group">
                             <label>Email Address</label>

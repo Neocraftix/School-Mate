@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\FurnitureController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,11 @@ Route::put('admin/profile/update', [AdminProfileController::class, 'schoolAdminP
 Route::get('/furniture/index', [FurnitureController::class, 'index'])->name('furniture.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::get('/get-sub-categories/{mainCategoryId}', [FurnitureController::class, 'getSubCategories'])->name('get.sub.categories')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/furniture/store', [FurnitureController::class, 'storeFurniture'])->name('furniture.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/furniture/update', [FurnitureController::class, 'updateFurniture'])->name('furniture.update')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::delete('/furniture/delete/{furnitureId}', [FurnitureController::class, 'deleteFurniture'])->name('furniture.delete')->middleware(['role:Supper Admin,Admin,Data Entry']);
+
+
+Route::get('/inventories', [InventoryController::class, 'index'])->name('inventories.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/inventories', [InventoryController::class, 'store'])->name('inventories.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/inventories/update', [InventoryController::class, 'update'])->name('inventories.update')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->name('inventories.destroy')->middleware(['role:Supper Admin,Admin,Data Entry']);

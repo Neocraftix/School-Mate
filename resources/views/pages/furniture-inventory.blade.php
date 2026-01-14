@@ -402,7 +402,21 @@
         });
 
         function editFurniture(furnitureID) {
-            // aleart(furnitureID);
+            // modal element eka ganna
+            const modalElement = document.getElementById('updateFurnitureModal');
+
+            const furnitureQuantity = document.getElementById('furnitureQuantity' + furnitureID).innerText;
+            const furnitureLocation = document.getElementById('furnitureLocation' + furnitureID).innerText;
+            const furnitureName = document.getElementById('furnitureName' + furnitureID).innerText;
+
+            const updateQuantity = document.getElementById('updateQuantity').value = furnitureQuantity;
+            const updateLocation = document.getElementById('updateLocation').value = furnitureLocation;
+            const updateFurnitureName = document.getElementById('updateFurnitureName').innerHTML = furnitureName;
+            const updateFurnitureId = document.getElementById('updateFurnitureId').value = furnitureID;
+
+            // bootstrap modal instance eka hadala show karanawa
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
         }
     </script>
 @endpush
@@ -530,22 +544,29 @@
                                     <tr>
                                         <td>{{ $furniture->id }}</td>
                                         <td>
-                                            <strong>{{ $furniture->furniture_name }}<strong>
+                                            <strong
+                                                id="furnitureName{{ $furniture->id }}">{{ $furniture->furniture_name }}<strong>
                                         </td>
                                         <td>{{ $furniture->subCategory->category_name }}</td>
-                                        <td><span class="badge bg-secondary">{{ $furniture->quantity }}</span></td>
-                                        <td>📍{{ $furniture->location }}</td>
+                                        <td id="furnitureQuantity{{ $furniture->id }}"><span
+                                                class="badge bg-secondary">{{ $furniture->quantity }}</span></td>
+                                        <td id="furnitureLocation{{ $furniture->id }}">{{ $furniture->location }}</td>
                                         <td>{{ $furniture->purchase_date }}</td>
                                         <td>{{ $furniture->warranty }} months</td>
                                         <td>{{ $furniture->supplier }}</td>
                                         <td>
                                             <button class="action-btn btn-edit"
-                                                onclick="editFurniture()">
+                                                onclick="editFurniture({{ $furniture->id }})">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn btn-delete mt-1">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            <form action="{{ route('furniture.delete', $furniture->id) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="action-btn btn-delete mt-1">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -642,6 +663,46 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="updateFurnitureModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <form action="{{ route('furniture.update') }}" method="post">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateFurnitureName">
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <input type="text" name="updateFurnitureId" class="d-none" id="updateFurnitureId">
+                                <div class="col-md-6">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" class="form-control" id="updateQuantity" name="updateQuantity"
+                                        placeholder="0" min="1" required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Location</label>
+                                    <input type="text" class="form-control" id="updateLocation" name="updateLocation"
+                                        placeholder="e.g., Grade 10A" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </button>
+                            <button type="submit" class="btn btn-success-gradient">
+                                <i class="fas fa-save me-2"></i>Update Furniture
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </body>

@@ -67,4 +67,44 @@ class FurnitureController extends Controller
 
         return redirect()->back()->with('success', 'Furniture added successfully.');
     }
+
+    public function updateFurniture(Request $request)
+    {
+        $validated = $request->validate([
+            'updateFurnitureId' => 'required|exists:furnitures,id',
+            'updateQuantity'    => 'required|integer|min:1',
+            'updateLocation'    => 'required|string|max:255',
+        ], [
+            'updateFurnitureId.required' => 'Furniture ID missing',
+            'updateFurnitureId.exists'  => 'Furniture not found',
+
+            'updateQuantity.required' => 'Quantity is required',
+            'updateQuantity.integer'  => 'Quantity must be a number',
+            'updateQuantity.min'      => 'Quantity must be at least 1',
+
+            'updateLocation.required' => 'Location is required',
+            'updateLocation.string'   => 'Location must be text',
+        ]);
+
+        // map karala update
+        $furniture = Furniture::findOrFail($validated['updateFurnitureId']);
+
+        $furniture->fill([
+            'quantity' => $validated['updateQuantity'],
+            'location' => $validated['updateLocation'],
+        ]);
+
+        $furniture->isDirty() && $furniture->save();
+
+        return back()->with('success', 'Furniture updated successfully');
+    }
+
+    public function deleteFurniture($furnitureId)
+    {
+        $furniture = Furniture::findOrFail($furnitureId);
+
+        $furniture->delete();
+
+        return back()->with('success', 'Deleted successfully');
+    }
 }

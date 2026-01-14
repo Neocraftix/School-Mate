@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProvincenSeeder::class);
         $this->call(EducationZoneSeeder::class);
         $this->call(EducationDivisionSeeder::class);
+        $this->call(InventoryCategorySeeder::class);
     }
 }
