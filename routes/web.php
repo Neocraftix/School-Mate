@@ -7,6 +7,7 @@ use App\Http\Controllers\FurnitureController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Routing\Route as RoutingRoute;
 
@@ -34,6 +35,16 @@ Route::delete('/furniture/delete/{furnitureId}', [FurnitureController::class, 'd
 
 
 Route::get('/inventories', [InventoryController::class, 'index'])->name('inventories.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
-Route::post('/inventories', [InventoryController::class, 'store'])->name('inventories.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/inventories/store', [InventoryController::class, 'store'])->name('inventories.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/inventories/update', [InventoryController::class, 'update'])->name('inventories.update')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->name('inventories.destroy')->middleware(['role:Supper Admin,Admin,Data Entry']);
+
+
+Route::get('/students', [StudentController::class, 'index'])->name('students.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/students/store', [StudentController::class, 'store'])->name('students.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/students/student/details/{studentId}', [StudentController::class, 'studentDetails'])->name('students.studendDetails')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/students/genarate-report/index', [StudentController::class, 'studentGanarateReportIndex'])->name('students.studentGanarateReportIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/students/genarate-report/filter', [StudentController::class, 'studentGanarateReportFilter'])->name('students.studentGanarateReportFilter')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/students/update/index/{studentId}', [StudentController::class, 'studentUpdateIndex'])->name('students.studentUpdateIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/students/update/{studentId}', [StudentController::class, 'studentUpdate'])->name('students.studentUpdate')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::delete('students/delete/{studentId}', [StudentController::class, 'studentDelete'])->name('students.studentDelete')->middleware(['role:Supper Admin,Admin,Data Entry']);

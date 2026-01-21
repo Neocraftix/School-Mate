@@ -21,4 +21,9 @@ class School extends Model
         'school_status',
         'payment_id',
     ];
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

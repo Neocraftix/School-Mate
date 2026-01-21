@@ -404,7 +404,7 @@
 
         <!-- Navigation Cards -->
         <div class="nav-cards-grid">
-            <div class="nav-card">
+            <div class="nav-card" onclick="window.location.href='{{ route('students.index') }}'">
                 <div class="card-header">
                     <div class="icon">👨‍🎓</div>
                     {{-- <div class="card-badge">Active</div> --}}

@@ -445,13 +445,13 @@
 
             <!-- Statistics Cards -->
             <div class="row mb-4">
-                <div class="col-lg-3 col-md-6">
+                {{-- <div class="col-lg-3 col-md-6">
                     <div class="stats-card">
                         <div class="icon" style="color: #667eea;">📊</div>
                         <h3 id="totalItems">5</h3>
                         <p>Total Items</p>
                     </div>
-                </div>
+                </div> --}}
                 {{-- <div class="col-lg-3 col-md-6">
                     <div class="stats-card">
                         <div class="icon" style="color: #11998e;">✅</div>

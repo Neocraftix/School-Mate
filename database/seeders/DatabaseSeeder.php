@@ -25,5 +25,12 @@ class DatabaseSeeder extends Seeder
         $this->call(EducationZoneSeeder::class);
         $this->call(EducationDivisionSeeder::class);
         $this->call(InventoryCategorySeeder::class);
+        $this->call(GenderSeeder::class);
+        $this->call(TransportSeeder::class);
+        $this->call(BloodTypeSeeder::class);
+        $this->call(SkillSeeder::class);
+        $this->call(AssistanceSeeder::class);
+        $this->call(GradeSeeder::class);
+        $this->call(StudentStatusSeeder::class);
     }
 }
