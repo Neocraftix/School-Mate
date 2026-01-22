@@ -77,6 +77,8 @@ class StudentController extends Controller
 
     public function studentGanarateReportIndex()
     {
+        $user = User::with('school')->find(Auth::id());
+
         $students = Student::with([
             'gender',
             'transport',
@@ -85,7 +87,8 @@ class StudentController extends Controller
             'assistance',
             'grade',
             'studentStatus',
-        ])->get();
+        ])->where('school_id', $user->school->id)->get();
+
         $genders = Gender::all();
         $transports = Transport::all();
         $bloodTypes = BloodType::all();
@@ -115,6 +118,8 @@ class StudentController extends Controller
         $assistances = Assistance::all();
         $grades = Grade::all();
         $studentStatues = StudentStatus::all();
+
+        $user = User::with('school')->find(Auth::id());
 
         $students = Student::with([
             'gender',
@@ -169,7 +174,7 @@ class StudentController extends Controller
             // Student Status (ID)
             ->when($request->studentStatus, function ($q) use ($request) {
                 $q->where('student_status_id', $request->studentStatus);
-            })->get();
+            })->where('school_id', $user->school->id)->get();
 
         return view('pages.student.student-report', compact(
             'students',

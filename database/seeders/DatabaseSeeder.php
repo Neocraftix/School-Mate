@@ -32,5 +32,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AssistanceSeeder::class);
         $this->call(GradeSeeder::class);
         $this->call(StudentStatusSeeder::class);
+        $this->call(TitleSeeder::class);
+        $this->call(EthnicitySeeder::class);
+        $this->call(ReligionSeeder::class);
+        $this->call(CivilStatusSeeder::class);
+        $this->call(TeacherStatusSeeder::class);
     }
 }

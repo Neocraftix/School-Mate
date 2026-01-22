@@ -8,6 +8,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Routing\Route as RoutingRoute;
 
@@ -47,4 +48,11 @@ Route::get('/students/genarate-report/index', [StudentController::class, 'studen
 Route::post('/students/genarate-report/filter', [StudentController::class, 'studentGanarateReportFilter'])->name('students.studentGanarateReportFilter')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::get('/students/update/index/{studentId}', [StudentController::class, 'studentUpdateIndex'])->name('students.studentUpdateIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/students/update/{studentId}', [StudentController::class, 'studentUpdate'])->name('students.studentUpdate')->middleware(['role:Supper Admin,Admin,Data Entry']);
-Route::delete('students/delete/{studentId}', [StudentController::class, 'studentDelete'])->name('students.studentDelete')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::delete('/students/delete/{studentId}', [StudentController::class, 'studentDelete'])->name('students.studentDelete')->middleware(['role:Supper Admin,Admin,Data Entry']);
+
+Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/teachers/store', [TeacherController::class, 'store'])->name('teachers.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/teachers/teacher/deatails/{teacherID}', [TeacherController::class, 'teacherDetails'])->name('teachers.teacherDetails')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/teachers/teacher/update/index/{teacherID}', [TeacherController::class, 'teacherUpdateIndex'])->name('teachers.teacherUpdateIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/teachers/teacher/update/{teacherID}', [TeacherController::class, 'updateTeacher'])->name('teachers.UpdateTeacher')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::delete('/teachers/delete/{teacherID}', [TeacherController::class, 'teacherDelete'])->name('teachers.teacherDelete')->middleware(['role:Supper Admin,Admin,Data Entry']);

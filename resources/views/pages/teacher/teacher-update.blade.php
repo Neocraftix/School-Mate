@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'School Mate | Edit Student')
+@section('title', 'School Mate | Edit teacher')
 
 @push('style')
     <style>
@@ -957,7 +957,7 @@
                         <div class="student-avatar-edit">
                             <div class="avatar-display">
                                 @php
-                                    $words = explode(' ', $student->child_name); // Name -> words array
+                                    $words = explode(' ', $teacher->full_name); // Name -> words array
                                     $firstTwoWords = array_slice($words, 0, 2); // Get first 2 words
                                     $firstLetters = '';
                                     foreach ($firstTwoWords as $word) {
@@ -974,10 +974,9 @@
                         <div class="header-info">
                             <h1 class="page-title">
                                 <span class="title-icon">✏️</span>
-                                {{ $student->child_name }}
+                                {{ $teacher->full_name }}
                             </h1>
-                            <p class="student-info">{{ $student->full_name_with_initials }}</p>
-                            <p class="admission-info">Admission No: {{ $student->admission_number }} </p>
+                            <p class="student-info">{{ $teacher->name_with_initials }}</p>
                         </div>
                     </div>
                     {{-- <div class="header-actions">
@@ -994,7 +993,7 @@
             </div>
 
             <!-- Edit Form -->
-            <form id="edit-student-form" action="{{ route('students.studentUpdate', $student->id) }}" method="POST">
+            <form action="{{ route('teachers.UpdateTeacher', $teacher->id) }}" method="POST">
                 @csrf
 
                 <!-- Tab Navigation -->
@@ -1004,19 +1003,14 @@
                         <span class="tab-text">Basic Information</span>
                         <span class="tab-status complete">✓</span>
                     </button>
-                    <button type="button" class="form-tab" onclick="switchFormTab('academic-info')">
-                        <span class="tab-icon">🎓</span>
-                        <span class="tab-text">Academic Details</span>
-                        <span class="tab-status"></span>
-                    </button>
-                    <button type="button" class="form-tab" onclick="switchFormTab('guardian-info')">
+                    <button type="button" class="form-tab" onclick="switchFormTab('family-info')">
                         <span class="tab-icon">👨‍👩‍👦</span>
-                        <span class="tab-text">Guardian Information</span>
+                        <span class="tab-text">Family Details</span>
                         <span class="tab-status"></span>
                     </button>
-                    <button type="button" class="form-tab" onclick="switchFormTab('medical-info')">
-                        <span class="tab-icon">🏥</span>
-                        <span class="tab-text">Medical & Other</span>
+                    <button type="button" class="form-tab" onclick="switchFormTab('qualification-info')">
+                        <span class="tab-icon">🎓</span>
+                        <span class="tab-text">Qualifications Information</span>
                         <span class="tab-status"></span>
                     </button>
                 </div>
@@ -1033,36 +1027,14 @@
 
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label required">
-                                        Admission Number
-                                        <span class="field-hint">Cannot be changed</span>
-                                    </label>
+                                    <label class="form-label required">Title</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon">🆔</span>
-                                        <input type="text" class="form-input disabled"
-                                            value="{{ $student->admission_number }}" name="studentAdmissionNumber" readonly>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label required">Student Name</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon">👤</span>
-                                        <input type="text" class="form-input" value="{{ $student->child_name }}"
-                                            name="child_name" required placeholder="Enter student name">
-                                    </div>
-                                    <span class="field-error" style="display: none;">Please enter student name</span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label required">Status</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon">🎫</span>
-                                        <select class="form-input" name="student_status_id" required>
-                                            @foreach ($studentStatues as $studentStatus)
-                                                <option value="{{ $studentStatus->id }}"
-                                                    {{ $student->student_status_id == $studentStatus->id ? 'selected' : '' }}>
-                                                    {{ $studentStatus->student_status }}
+                                        <span class="input-icon">🙎</span>
+                                        <select class="form-input" name="title_id" required>
+                                            @foreach ($titles as $title)
+                                                <option value="{{ $title->id }}"
+                                                    {{ $teacher->title_id == $title->id ? 'selected' : '' }}>
+                                                    {{ $title->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -1070,13 +1042,46 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group full-width">
+                                <div class="form-group">
+                                    <label class="form-label required">Teacher Name</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">👤</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->full_name }}"
+                                            name="full_name" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">Status</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">🎫</span>
+                                        <select class="form-input" name="teacher_status_id" required>
+                                            @foreach ($teacherStatuses as $teacherStatus)
+                                                <option value="{{ $teacherStatus->id }}"
+                                                    {{ $teacher->teacher_status_id == $teacherStatus->id ? 'selected' : '' }}>
+                                                    {{ $teacherStatus->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="select-arrow">▼</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="form-label required">Full Name with Initials</label>
                                     <div class="input-wrapper">
                                         <span class="input-icon">📋</span>
-                                        <input type="text" class="form-input"
-                                            value="{{ $student->full_name_with_initials }}" name="full_name_with_initials"
-                                            required placeholder="e.g., K.H. Perera">
+                                        <input type="text" class="form-input" value="{{ $teacher->name_with_initials }}"
+                                            name="name_with_initials" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">N.I.C</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">🪪</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->nic }}" name="nic"
+                                            required>
                                     </div>
                                 </div>
 
@@ -1084,8 +1089,24 @@
                                     <label class="form-label required">Date of Birth</label>
                                     <div class="input-wrapper">
                                         <span class="input-icon">📅</span>
-                                        <input type="date" class="form-input" value="{{ $student->date_of_birth }}"
-                                            name="date_of_birth" required>
+                                        <input type="date" class="form-input" value="{{ $teacher->dob }}" name="dob"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">Ethnicity</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">👪</span>
+                                        <select class="form-input" name="ethnicity_id" required>
+                                            @foreach ($ethnicityes as $ethnicity)
+                                                <option value="{{ $ethnicity->id }}"
+                                                    {{ $teacher->ethnicity_id == $ethnicity->id ? 'selected' : '' }}>
+                                                    {{ $ethnicity->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="select-arrow">▼</span>
                                     </div>
                                 </div>
 
@@ -1096,7 +1117,7 @@
                                         <select class="form-input" name="gender_id" required>
                                             @foreach ($genders as $gender)
                                                 <option value="{{ $gender->id }}"
-                                                    {{ $student->gender_id == $gender->id ? 'selected' : '' }}>
+                                                    {{ $teacher->gender_id == $gender->id ? 'selected' : '' }}>
                                                     {{ $gender->gender }}
                                                 </option>
                                             @endforeach
@@ -1106,15 +1127,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label required">Blood Type</label>
+                                    <label class="form-label required">Religion</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon">🩸</span>
-                                        <select class="form-input" name="blood_type_id" required>
-                                            <option value="">Select Blood Type</option>
-                                            @foreach ($bloodTypes as $bloodType)
-                                                <option value="{{ $bloodType->id }}"
-                                                    {{ $student->blood_type_id == $bloodType->id ? 'selected' : '' }}>
-                                                    {{ $bloodType->blood_type }}
+                                        <span class="input-icon">☸️</span>
+                                        <select class="form-input" name="religion_id" required>
+                                            @foreach ($religions as $religion)
+                                                <option value="{{ $religion->id }}"
+                                                    {{ $teacher->religion_id == $religion->id ? 'selected' : '' }}>
+                                                    {{ $religion->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -1122,359 +1142,189 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group full-width">
-                                    <label class="form-label required">Address</label>
+                                <div class="form-group">
+                                    <label class="form-label required">Email</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon textarea-icon">🏠</span>
-                                        <textarea class="form-input form-textarea" name="address" rows="3" required
-                                            placeholder="Enter complete address">{{ $student->address }}</textarea>
+                                        <span class="input-icon">📧</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->email }}"
+                                            name="email" required>
                                     </div>
                                 </div>
 
-                                {{-- <div class="form-group">
-                                <label class="form-label">Email Address</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">📧</span>
-                                    <input 
-                                        type="email" 
-                                        class="form-input" 
-                                        value="email"
-                                        name="studentEmail"
-                                        placeholder="student@example.com"
-                                    >
+                                <div class="form-group">
+                                    <label class="form-label required">Mobile number</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">📞</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->phone }}"
+                                            name="phone" required>
+                                    </div>
                                 </div>
-                            </div> --}}
+
+                                <div class="form-group full-width">
+                                    <label class="form-label required">Permanent Address</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon textarea-icon">🏠</span>
+                                        <textarea class="form-input form-textarea" name="address_permanent" rows="3" required
+                                            placeholder="Enter complete address">{{ $teacher->address_permanent }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="form-label required">Temporary Address</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon textarea-icon">🏠</span>
+                                        <textarea class="form-input form-textarea" name="address_temporary" rows="3"
+                                            placeholder="Enter complete address">{{ $teacher->address_temporary }}</textarea>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
-                                    <label class="form-label required">Contact Number</label>
+                                    <label class="form-label required">District</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon">📱</span>
-                                        <input type="tel" class="form-input"
-                                            value="{{ $student->telephone_number }}" name="telephone_number" required
-                                            placeholder="077-1234567">
+                                        <span class="input-icon">📍</span>
+                                        <select class="form-input" name="district_id" required>
+                                            @foreach ($districts as $district)
+                                                <option value="{{ $district->id }}"
+                                                    {{ $teacher->district_id == $district->id ? 'selected' : '' }}>
+                                                    {{ $district->zone_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="select-arrow">▼</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">DS Division</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">📍</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->ds_division }}"
+                                            name="ds_division" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">GS Division</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">📍</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->gs_division }}"
+                                            name="gs_division" required>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Academic Information Tab -->
-                    <div id="academic-info" class="form-tab-content">
+                    <!-- Family Information Tab -->
+                    <div id="family-info" class="form-tab-content">
+                        <div class="form-section">
+                            <h3 class="section-title">
+                                <span class="section-icon">👪</span>
+                                Family Details
+                            </h3>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label required">Civil Status</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">👪</span>
+                                        <select class="form-input" name="civil_status_id" required>
+                                            @foreach ($civilStatuses as $civilStatus)
+                                                <option value="{{ $civilStatus->id }}"
+                                                    {{ $teacher->civil_status_id == $civilStatus->id ? 'selected' : '' }}>
+                                                    {{ $civilStatus->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="select-arrow">▼</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">Name of Spouse</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">💑</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->spouse_name }}"
+                                            name="spouse_name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">Names of the Children</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">👼</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->children_names }}"
+                                            name="children_names">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label required">Date of Birth of the Children</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">👼</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->children_dobs }}"
+                                            name="children_dobs">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Qualifications Information Tab -->
+                    <div id="qualification-info" class="form-tab-content">
                         <div class="form-section">
                             <h3 class="section-title">
                                 <span class="section-icon">🎓</span>
-                                Academic Information
+                                Qualifications Information
                             </h3>
 
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label required">Grade</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon">📚</span>
-                                        <select class="form-input" name="grade_id" required>
-                                            <option value="">Select Grade</option>
-                                            @foreach ($grades as $grade)
-                                                <option value="{{ $grade->id }}"
-                                                    {{ $student->grade_id == $grade->id ? 'selected' : '' }}>
-                                                    {{ $grade->grade }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="select-arrow">▼</span>
-                                    </div>
-                                </div>
-
-                                {{-- <div class="form-group">
-                                    <label class="form-label required">Class</label>
+                                    <label class="form-label required">NCOE</label>
                                     <div class="input-wrapper">
                                         <span class="input-icon">🏫</span>
-                                        <input type="text" class="form-input"
-                                            value="{{ $studentData->student_class }}" name="studentClass" required
-                                            placeholder="e.g., A / B / C">
-                                    </div>
-                                </div> --}}
-
-                                {{-- <div class="form-group">
-                                <label class="form-label">Section</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">📑</span>
-                                    <select class="form-input" name="studentSection">
-                                        <option value="">Select Section</option>
-                                        <option value="Science">Science</option>
-                                        <option value="Commerce">Commerce</option>
-                                        <option value="Arts">Arts</option>
-                                    </select>
-                                    <span class="select-arrow">▼</span>
-                                </div>
-                            </div> --}}
-
-                                <div class="form-group">
-                                    <label class="form-label required">Mode of Transport</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon">🚌</span>
-                                        <select class="form-input" name="transport_id" required>
-                                            <option value="">Select Transport Mode</option>
-                                            @foreach ($transports as $transport)
-                                                <option value="{{ $transport->id }}"
-                                                    {{ $student->transport_id == $transport->id ? 'selected' : '' }}>
-                                                    {{ $transport->transport_methord }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="select-arrow">▼</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->ncoe }}"
+                                            name="ncoe">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label">Special Skills</label>
+                                    <label class="form-label required">Degree</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon">⭐</span>
-                                        <select class="form-input" name="skill_id">
-                                            <option value="">Select Special Skills</option>
-                                            @foreach ($skills as $skill)
-                                                <option value="{{ $skill->id }}"
-                                                    {{ $student->skill_id == $skill->id ? 'selected' : '' }}>
-                                                    {{ $skill->skill }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="select-arrow">▼</span>
+                                        <span class="input-icon">📖</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->degree }}"
+                                            name="degree">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label">Government Assistance</label>
+                                    <label class="form-label required">AL</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon">🏛️</span>
-                                        <select class="form-input" name="assistance_id">
-                                            <option value="">Select Assistance Type</option>
-                                            @foreach ($assistances as $assistance)
-                                                <option value="{{ $assistance->id }}"
-                                                    {{ $student->assistance_id == $assistance->id ? 'selected' : '' }}>
-                                                    {{ $assistance->assistance }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="select-arrow">▼</span>
+                                        <span class="input-icon">📖</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->al }}"
+                                            name="al">
                                     </div>
                                 </div>
-
-                                {{-- <div class="form-group full-width">
-                                <label class="form-label">Extra-Curricular Activities</label>
-                                <div class="checkbox-group">
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="activities[]" value="sports">
-                                        <span class="checkbox-custom"></span>
-                                        <span class="checkbox-label">Sports</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="activities[]" value="music">
-                                        <span class="checkbox-custom"></span>
-                                        <span class="checkbox-label">Music</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="activities[]" value="art">
-                                        <span class="checkbox-custom"></span>
-                                        <span class="checkbox-label">Art</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="activities[]" value="drama">
-                                        <span class="checkbox-custom"></span>
-                                        <span class="checkbox-label">Drama</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="activities[]" value="debate">
-                                        <span class="checkbox-custom"></span>
-                                        <span class="checkbox-label">Debate</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="activities[]" value="science">
-                                        <span class="checkbox-custom"></span>
-                                        <span class="checkbox-label">Science Club</span>
-                                    </label>
-                                </div>
-                            </div> --}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Guardian Information Tab -->
-                    <div id="guardian-info" class="form-tab-content">
-                        <div class="form-section">
-                            <h3 class="section-title">
-                                <span class="section-icon">👨‍👩‍👦</span>
-                                Parent/Guardian Information
-                            </h3>
-
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label class="form-label required">Father's Name</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon">👨</span>
-                                        <input type="text" class="form-input" value="{{ $student->father_name }}"
-                                            name="father_name" required placeholder="Enter father's name">
-                                    </div>
-                                </div>
-
-                                {{-- <div class="form-group">
-                                <label class="form-label">Father's Occupation</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">💼</span>
-                                    <input type="text" class="form-input" value="FArmer"
-                                        name="studentFathersOccupation" placeholder="Enter occupation">
-                                </div>
-                            </div> --}}
 
                                 <div class="form-group">
-                                    <label class="form-label required">Mother's Name</label>
+                                    <label class="form-label required">Diploma</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon">👩</span>
-                                        <input type="text" class="form-input" value="{{ $student->mother_name }}"
-                                            name="mother_name" required placeholder="Enter mother's name">
+                                        <span class="input-icon">🎒</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->diploma }}"
+                                            name="diploma">
                                     </div>
                                 </div>
-
-                                {{-- <div class="form-group">
-                                <label class="form-label">Mother's Occupation</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">💼</span>
-                                    <input type="text" class="form-input" value="hw"
-                                        name="studentMothersOccupation" placeholder="Enter occupation">
-                                </div>
-                            </div> --}}
 
                                 <div class="form-group">
-                                    <label class="form-label required">Guardian's Name</label>
+                                    <label class="form-label required">Other</label>
                                     <div class="input-wrapper">
-                                        <span class="input-icon">👤</span>
-                                        <input type="text" class="form-input" value="{{ $student->guardian_name }}"
-                                            name="guardian_name" required placeholder="Enter guardian's name">
-                                    </div>
-                                </div>
-
-                                {{-- <div class="form-group">
-                                <label class="form-label">Relationship to Student</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">🤝</span>
-                                    <select class="form-input" name="guardianRelationship">
-                                        <option value="">Select Relationship</option>
-                                        <option value="Father">Father</option>
-                                        <option value="Mother">Mother</option>
-                                        <option value="Uncle">Uncle</option>
-                                        <option value="Aunt">Aunt</option>
-                                        <option value="Grandparent">Grandparent</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    <span class="select-arrow">▼</span>
-                                </div>
-                            </div> --}}
-
-                                {{-- <div class="form-group">
-                                <label class="form-label required">Guardian Contact</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">📞</span>
-                                    <input type="tel" class="form-input" value="0785757575" name="guardianContact"
-                                        required placeholder="071-1234567">
-                                </div>
-                            </div> --}}
-
-                                {{-- <div class="form-group">
-                                <label class="form-label">Emergency Contact</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">🚨</span>
-                                    <input type="tel" class="form-input" value="0712022111" name="emergencyContact"
-                                        placeholder="Emergency contact number">
-                                </div>
-                            </div> --}}
-
-                                <div class="form-group full-width">
-                                    <label class="form-label">Guardian's Address</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon textarea-icon">📍</span>
-                                        <textarea class="form-input form-textarea" name="guardian_address" rows="3"
-                                            placeholder="Enter guardian's address">{{ $student->guardian_address }}</textarea>
+                                        <span class="input-icon">📑</span>
+                                        <input type="text" class="form-input" value="{{ $teacher->other }}"
+                                            name="other">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Medical Information Tab -->
-                    <div id="medical-info" class="form-tab-content">
-                        <div class="form-section">
-                            <h3 class="section-title">
-                                <span class="section-icon">🏥</span>
-                                Medical Information
-                            </h3>
-
-                            <div class="form-grid">
-                                <div class="form-group full-width">
-                                    <label class="form-label">Medical Conditions</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon textarea-icon">💊</span>
-                                        <textarea class="form-input form-textarea" name="special_medical_conditions" rows="3"
-                                            placeholder="Enter any medical conditions, allergies, or medications">{{ $student->special_medical_conditions }}</textarea>
-                                    </div>
-                                </div>
-
-                                {{-- <div class="form-group">
-                                <label class="form-label">Doctor's Name</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">👨‍⚕️</span>
-                                    <input type="text" class="form-input" value="chandani" name="doctorName"
-                                        placeholder="Family doctor's name">
-                                </div>
-                            </div> --}}
-
-                                {{-- <div class="form-group">
-                                <label class="form-label">Doctor's Contact</label>
-                                <div class="input-wrapper">
-                                    <span class="input-icon">📞</span>
-                                    <input type="tel" class="form-input" value="0909090808" name="doctorContact"
-                                        placeholder="Doctor's contact number">
-                                </div>
-                            </div> --}}
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h3 class="section-title">
-                                <span class="section-icon">👨‍👩‍👧‍👦</span>
-                                Sibling Information
-                            </h3>
-
-                            <div class="form-grid">
-                                <div class="form-group full-width">
-                                    <label class="form-label">Sibling Details</label>
-                                    <div class="input-wrapper">
-                                        <span class="input-icon textarea-icon">👥</span>
-                                        <textarea class="form-input form-textarea" name="sibling_details" rows="4"
-                                            placeholder="Enter details about siblings (names, ages, schools, etc.)">{{ $student->sibling_details }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- <div class="form-section">
-                        <h3 class="section-title">
-                            <span class="section-icon">📄</span>
-                            Document Upload
-                        </h3>
-
-                        <div class="document-upload-area">
-                            <div class="upload-zone" onclick="document.getElementById('documents').click()">
-                                <div class="upload-icon">📁</div>
-                                <h4>Drop files here or click to upload</h4>
-                                <p>Supported formats: PDF, JPG, PNG (Max 5MB each)</p>
-                                <input type="file" id="documents" name="documents[]" multiple hidden
-                                    accept=".pdf,.jpg,.jpeg,.png">
-                            </div>
-
-                            <div class="uploaded-files-list">
-                                <!-- Existing documents would be listed here -->
-                            </div>
-                        </div>
-                    </div> --}}
                     </div>
                 </div>
 
