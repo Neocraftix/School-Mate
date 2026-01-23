@@ -872,7 +872,8 @@
                             <span class="btn-icon">📊</span>
                             Bulk Add Teacher
                         </button>
-                        <button class="btn btn-secondary">
+
+                        <button class="btn btn-secondary" onclick="window.location='{{ route('teachers.teacherGenarateReportIndex') }}'">
                             <span class="btn-icon">📥</span>
                             Generate Report
                         </button>

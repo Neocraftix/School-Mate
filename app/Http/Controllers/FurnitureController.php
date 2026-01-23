@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Furniture;
 use App\Models\FurnitureSubCategory;
 use App\Models\MainFurnitureCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FurnitureController extends Controller
 {
     public function index()
     {
+        $user = User::with('school')->find(Auth::id());
+
         $mainCategories = MainFurnitureCategory::all();
-        $furnitures = Furniture::all();
+        $furnitures = Furniture::where('school_id', $user->school->id)->get();
+
         return view('pages.furniture-inventory', compact('mainCategories', 'furnitures'));
     }
 
@@ -55,7 +60,10 @@ class FurnitureController extends Controller
             ]
         );
 
+        $user = User::with('school')->find(Auth::id());
+
         Furniture::create([
+            'school_id' =>  $user->school->id,
             'furniture_name'           => $validated['furnitureName'],
             'sub_furniture_category_id' => $validated['sub_category'],
             'quantity'                 => $validated['quantity'],

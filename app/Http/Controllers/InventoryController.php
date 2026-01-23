@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\InventoryCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
 {
     public function index()
     {
-        $inventories = Inventory::with('category')->get();
+        $user = User::with('school')->find(Auth::id());
+
+        $inventories = Inventory::with('category')->where('school_id', $user->school->id)->get();
         $categories  = InventoryCategory::orderBy('name')->get();
 
         return view('pages.inventory', compact('categories', 'inventories'));
@@ -51,15 +55,17 @@ class InventoryController extends Controller
                 'location.max' => 'Location name eka akuru 255ta wada wadi wenna bae.',
             ]
         );
+        $user = User::with('school')->find(Auth::id());
 
-        Inventory::create($validated);
+        $array = ['school_id' => $user->school->id];
+
+        Inventory::create(array_merge($validated, $array));
 
         return redirect()->back()->with('success', 'Inventory item successfully added');
     }
 
     public function update(Request $request)
     {
-        // 🔹 Validate incoming data (custom field names)
         $validated = $request->validate(
             [
                 'inventoryId'           => 'required|exists:inventories,id',
@@ -83,10 +89,8 @@ class InventoryController extends Controller
             ]
         );
 
-        // 🔹 Find inventory
         $inventory = Inventory::findOrFail($validated['inventoryId']);
 
-        // 🔹 Map request fields → DB columns
         $updateData = [
             'name'            => $validated['updateName'],
             'quantity'        => $validated['updateQuantity'],
@@ -96,7 +100,6 @@ class InventoryController extends Controller
             'location'        => $validated['Updatelocation'] ?? null,
         ];
 
-        // 🔹 Only keep changed fields
         $changedData = [];
 
         foreach ($updateData as $column => $newValue) {
@@ -105,7 +108,6 @@ class InventoryController extends Controller
             }
         }
 
-        // 🔹 Update only if something changed
         if (!empty($changedData)) {
             $inventory->update($changedData);
 

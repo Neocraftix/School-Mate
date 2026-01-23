@@ -11,6 +11,7 @@ use App\Models\Teacher;
 use App\Models\TeacherStatus;
 use App\Models\Title;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -153,5 +154,100 @@ class TeacherController extends Controller
         );
 
         return back()->with('success', "Teacher '{$teacher->full_name}' deleted successfully.");
+    }
+
+    public function teacherGenarateReportIndex()
+    {
+        $ethnicityes = Ethnicity::all();
+        $genders = Gender::all();
+        $religions = Religion::all();
+        $districts =  EducationZone::all();
+        $civilStatuses = CivilStatus::all();
+
+        $user = User::with('school')->find(Auth::id());
+
+        $teachers = Teacher::with('teacherStatus')->where('school_id', $user->school->id)->get();
+
+        return view('pages.teacher.teacher-report', compact('teachers', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
+    }
+
+    public function teacherGanarateReportFilter(Request $request)
+    {
+        $ethnicityes = Ethnicity::all();
+        $genders = Gender::all();
+        $religions = Religion::all();
+        $districts =  EducationZone::all();
+        $civilStatuses = CivilStatus::all();
+
+        $user = User::with('school')->find(Auth::id());
+
+        $teachers = Teacher::with([
+            'ethnicity',
+            'gender',
+            'religion',
+            'district',
+            'civilStatus',
+        ])
+
+            ->when($request->filled('nic'), function ($q) use ($request) {
+                $q->where('nic_hash', hash('sha256', $request->nic));
+            })
+
+            ->when($request->full_name, function ($q) use ($request) {
+                $q->where('full_name', 'like', '%' . $request->full_name . '%');
+            })
+
+            ->when($request->ethnicity, function ($q) use ($request) {
+                $q->where('ethnicity_id', $request->ethnicity);
+            })
+
+            ->when($request->gender, function ($q) use ($request) {
+                $q->where('gender_id', $request->gender);
+            })
+
+            ->when($request->religion, function ($q) use ($request) {
+                $q->where('religion_id', $request->religion);
+            })
+
+            ->when($request->district, function ($q) use ($request) {
+                $q->where('district_id', $request->spedistrictcialSkills);
+            })
+
+            ->where('school_id', $user->school->id)->get();
+
+        return view('pages.teacher.teacher-report', compact('teachers', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
+    }
+
+    function teacherRetirement(Request $request)
+    {
+        $ethnicityes = Ethnicity::all();
+        $genders = Gender::all();
+        $religions = Religion::all();
+        $districts =  EducationZone::all();
+        $civilStatuses = CivilStatus::all();
+
+        $user = User::with('school')->find(Auth::id());
+
+        $request->validate([
+            'retire_date' => 'required|date',
+        ]);
+
+        $givenDate = Carbon::parse($request->retire_date);
+
+        $maxDob = $givenDate->copy()->subYears(60);
+
+
+        $teachers = Teacher::with([
+            'ethnicity',
+            'gender',
+            'religion',
+            'district',
+            'civilStatus',
+        ])
+            ->whereDate('dob', '<=', $maxDob)
+            ->where('school_id', $user->school->id)
+            ->get();
+
+        return view('pages.teacher.teacher-report', compact('teachers', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
     }
 }

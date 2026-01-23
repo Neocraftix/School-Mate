@@ -20,18 +20,22 @@
                 <i class="nav-icon">👩‍🏫</i>
                 Teachers
             </a>
-            <a href="{{ url('/inventories') }}" class="nav-link {{ request()->is('inventory*') ? 'active' : '' }}">
+            <a href="{{ url('/inventories') }}" class="nav-link {{ request()->is('inventories*') ? 'active' : '' }}">
                 <i class="nav-icon">📦</i>
                 Inventory
             </a>
-            <a href="{{ route('furniture.index') }}" class="nav-link {{ request()->is('reports*') ? 'active' : '' }}">
+            <a href="{{ route('furniture.index') }}"
+                class="nav-link {{ request()->is('furniture*') ? 'active' : '' }}">
                 <i class="nav-icon">🪑</i>
                 Furniture
             </a>
-            <a href="{{ url('/settings') }}" class="nav-link {{ request()->is('settings*') ? 'active' : '' }}">
-                <i class="nav-icon">⚙️</i>
-                Settings
-            </a>
+            @if (auth()->user()->role->role_name === 'Supper Admin')
+                <a href="{{ route('settings.adminManagementIndex') }}"
+                    class="nav-link {{ request()->is('settings*') ? 'active' : '' }}">
+                    <i class="nav-icon">⚙️</i>
+                    Settings
+                </a>
+            @endif
         </div>
 
         <div class="nav-toggle" id="nav-toggle">
@@ -52,10 +56,12 @@
                         <i class="dropdown-icon">👤</i>
                         Profile
                     </a>
-                    <a href="{{ url('/settings') }}">
-                        <i class="dropdown-icon">⚙️</i>
-                        Settings
-                    </a>
+                    @if (auth()->user()->role->role_name === 'Supper Admin')
+                        <a href="{{ route('settings.adminManagementIndex') }}">
+                            <i class="dropdown-icon">⚙️</i>
+                            Settings
+                        </a>
+                    @endif
                     <a href="{{ route('logout') }}">
                         <i class="dropdown-icon">🚪</i>
                         Logout
@@ -90,7 +96,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 0 20px;
+        /* padding: 0 20px; */
         height: 70px;
         gap: 40px;
     }

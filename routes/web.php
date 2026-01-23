@@ -7,10 +7,10 @@ use App\Http\Controllers\FurnitureController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\Routing\Route as RoutingRoute;
 
 Route::get('/', [RegistrationController::class, 'index'])->name('school-registorIndex');
 
@@ -56,3 +56,10 @@ Route::get('/teachers/teacher/deatails/{teacherID}', [TeacherController::class, 
 Route::get('/teachers/teacher/update/index/{teacherID}', [TeacherController::class, 'teacherUpdateIndex'])->name('teachers.teacherUpdateIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/teachers/teacher/update/{teacherID}', [TeacherController::class, 'updateTeacher'])->name('teachers.UpdateTeacher')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::delete('/teachers/delete/{teacherID}', [TeacherController::class, 'teacherDelete'])->name('teachers.teacherDelete')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/teachers/genarate-report/index', [TeacherController::class, 'teacherGenarateReportIndex'])->name('teachers.teacherGenarateReportIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/teachers/genarate-report/filter', [TeacherController::class, 'teacherGanarateReportFilter'])->name('teachers.teacherGanarateReportFilter')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::post('/teachers/find-retirement', [TeacherController::class, 'teacherRetirement'])->name('teachers.retirement')->middleware(['role:Supper Admin,Admin,Data Entry']);
+
+Route::get('/settings/admin-management', [SettingsController::class, 'adminManagementIndex'])->name('settings.adminManagementIndex')->middleware(['role:Supper Admin']);
+Route::post('/admin/create', [AuthController::class, 'createAdmin'])->name('admin.createAdmin')->middleware(['role:Supper Admin']);
+Route::delete('/admin/delete/{adminID}', [AuthController::class, 'adminDelete'])->name('admin.adminDelete')->middleware(['role:Supper Admin']);

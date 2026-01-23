@@ -9,6 +9,7 @@ class Furniture extends Model
     protected $table = 'furnitures';
 
     protected $fillable = [
+        'school_id',
         'furniture_name',
         'sub_furniture_category_id',
         'quantity',

@@ -388,17 +388,13 @@
             </div>
             <div class="header-stats">
                 <div class="stat-card">
-                    <div class="stat-number">1,245</div>
+                    <div class="stat-number">{{ $studentCount }}</div>
                     <div class="stat-label">Total Students</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">87</div>
+                    <div class="stat-number">{{ $teacherCount }}</div>
                     <div class="stat-label">Teachers</div>
                 </div>
-                {{-- <div class="stat-card">
-                    <div class="stat-number">24</div>
-                    <div class="stat-label">Classrooms</div>
-                </div> --}}
             </div>
         </div>
 
@@ -407,12 +403,11 @@
             <div class="nav-card" onclick="window.location.href='{{ route('students.index') }}'">
                 <div class="card-header">
                     <div class="icon">👨‍🎓</div>
-                    {{-- <div class="card-badge">Active</div> --}}
                 </div>
                 <h3>Students</h3>
                 <p>Manage student information, enrollment, and academic records</p>
                 <div class="card-footer">
-                    <span class="card-count">1,245 registered</span>
+                    <span class="card-count">{{ $studentCount }} registered</span>
                     <span class="card-arrow">→</span>
                 </div>
             </div>
@@ -420,12 +415,11 @@
             <div class="nav-card" onclick="window.location.href='{{ route('teachers.index') }}'">
                 <div class="card-header">
                     <div class="icon">👩‍🏫</div>
-                    {{-- <div class="card-badge">Active</div> --}}
                 </div>
                 <h3>Teachers</h3>
                 <p>Handle teacher profiles, assignments, and class schedules</p>
                 <div class="card-footer">
-                    <span class="card-count">87 active</span>
+                    <span class="card-count">{{ $teacherCount }} active</span>
                     <span class="card-arrow">→</span>
                 </div>
             </div>
@@ -433,12 +427,11 @@
             <div class="nav-card" onclick="window.location.href='{{ route('inventories.index') }}'">
                 <div class="card-header">
                     <div class="icon">📦</div>
-                    {{-- <div class="card-badge">Updated</div> --}}
                 </div>
                 <h3>Inventory</h3>
                 <p>Track school supplies, equipment, and resource management</p>
                 <div class="card-footer">
-                    <span class="card-count">456 items</span>
+                    <span class="card-count">{{ $inventoryCount }} items</span>
                     <span class="card-arrow">→</span>
                 </div>
             </div>
@@ -490,7 +483,7 @@
                 <h3>Furniture Inventory</h3>
                 <p>Track desks, chairs, tables, and other furniture items</p>
                 <div class="card-footer">
-                    <span class="card-count">890 pieces</span>
+                    <span class="card-count">{{ $furnitureInventoryCount }} pieces</span>
                     <span class="card-arrow">→</span>
                 </div>
             </div>

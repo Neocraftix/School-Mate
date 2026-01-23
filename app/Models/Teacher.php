@@ -49,6 +49,15 @@ class Teacher extends Model
         'children_dobs' => 'encrypted',
     ];
 
+    protected static function booted()
+    {
+        static::saving(function ($teacher) {
+            if ($teacher->nic) {
+                $teacher->nic_hash = hash('sha256', $teacher->nic);
+            }
+        });
+    }
+
     /* =======================
         🔗 Relationships
        ======================= */
