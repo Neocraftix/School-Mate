@@ -6,6 +6,7 @@ use App\Models\Furniture;
 use App\Models\FurnitureSubCategory;
 use App\Models\MainFurnitureCategory;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,10 +14,9 @@ class FurnitureController extends Controller
 {
     public function index()
     {
-        $user = User::with('school')->find(Auth::id());
 
         $mainCategories = MainFurnitureCategory::all();
-        $furnitures = Furniture::where('school_id', $user->school->id)->get();
+        $furnitures = Furniture::get();
 
         return view('pages.furniture-inventory', compact('mainCategories', 'furnitures'));
     }
@@ -114,5 +114,16 @@ class FurnitureController extends Controller
         $furniture->delete();
 
         return back()->with('success', 'Deleted successfully');
+    }
+
+    public function exportPdf()
+    {
+        $furnitures = Furniture::get();
+
+        // Load blade template
+        $pdf = PDF::loadView('pdf-templates.furniture.pdf', compact('furnitures'));
+
+        // Download PDF
+        return $pdf->download('furniture_list(' . date('d M Y H:i:s') . ').pdf');
     }
 }

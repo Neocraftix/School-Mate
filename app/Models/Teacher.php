@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 
 class Teacher extends Model
 {
@@ -54,6 +56,15 @@ class Teacher extends Model
         static::saving(function ($teacher) {
             if ($teacher->nic) {
                 $teacher->nic_hash = hash('sha256', $teacher->nic);
+            }
+        });
+
+        static::addGlobalScope('teacher', function (Builder $builder) {
+            // Check if user logged in
+            if (Auth::check()) {
+                // Only get students for logged in user's school
+                $user = Auth::user();
+                $builder->where('school_id', $user->school->id);
             }
         });
     }

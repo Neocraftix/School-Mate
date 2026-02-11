@@ -26,9 +26,7 @@ class TeacherController extends Controller
         $districts =  EducationZone::all();
         $civilStatuses = CivilStatus::all();
 
-        $user = User::with('school')->find(Auth::id());
-
-        $teachers = Teacher::with('teacherStatus')->where('school_id', $user->school->id)->paginate(25);
+        $teachers = Teacher::with('teacherStatus')->paginate(25);
 
         return view('pages.teacher.teacher-index', compact('teachers', 'titles', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
     }
@@ -164,9 +162,7 @@ class TeacherController extends Controller
         $districts =  EducationZone::all();
         $civilStatuses = CivilStatus::all();
 
-        $user = User::with('school')->find(Auth::id());
-
-        $teachers = Teacher::with('teacherStatus')->where('school_id', $user->school->id)->get();
+        $teachers = Teacher::with('teacherStatus')->get();
 
         return view('pages.teacher.teacher-report', compact('teachers', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
     }
@@ -178,8 +174,6 @@ class TeacherController extends Controller
         $religions = Religion::all();
         $districts =  EducationZone::all();
         $civilStatuses = CivilStatus::all();
-
-        $user = User::with('school')->find(Auth::id());
 
         $teachers = Teacher::with([
             'ethnicity',
@@ -211,9 +205,7 @@ class TeacherController extends Controller
 
             ->when($request->district, function ($q) use ($request) {
                 $q->where('district_id', $request->spedistrictcialSkills);
-            })
-
-            ->where('school_id', $user->school->id)->get();
+            })->get();
 
         return view('pages.teacher.teacher-report', compact('teachers', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
     }
@@ -225,8 +217,6 @@ class TeacherController extends Controller
         $religions = Religion::all();
         $districts =  EducationZone::all();
         $civilStatuses = CivilStatus::all();
-
-        $user = User::with('school')->find(Auth::id());
 
         $request->validate([
             'retire_date' => 'required|date',
@@ -245,7 +235,6 @@ class TeacherController extends Controller
             'civilStatus',
         ])
             ->whereDate('dob', '<=', $maxDob)
-            ->where('school_id', $user->school->id)
             ->get();
 
         return view('pages.teacher.teacher-report', compact('teachers', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));

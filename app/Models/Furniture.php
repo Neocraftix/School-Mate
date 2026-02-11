@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Furniture extends Model
 {
@@ -39,5 +41,17 @@ class Furniture extends Model
             'sub_furniture_category_id',
             'main_furniture_category_id'
         );
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('furniture', function (Builder $builder) {
+            // Check if user logged in
+            if (Auth::check()) {
+                // Only get students for logged in user's school
+                $user = Auth::user();
+                $builder->where('school_id', $user->school->id);
+            }
+        });
     }
 }

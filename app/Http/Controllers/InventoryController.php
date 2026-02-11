@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventory;
 use App\Models\InventoryCategory;
+use App\Models\InventorySupplier;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,47 +14,37 @@ class InventoryController extends Controller
 {
     public function index()
     {
-        $user = User::with('school')->find(Auth::id());
-
-        $inventories = Inventory::with('category')->where('school_id', $user->school->id)->get();
+        $inventories = Inventory::with('category', 'supplier')->get();
         $categories  = InventoryCategory::orderBy('name')->get();
+        $suppliers = InventorySupplier::all();
 
-        return view('pages.inventory', compact('categories', 'inventories'));
+        return view('pages.inventory', compact('categories', 'inventories', 'suppliers'));
     }
 
     public function store(Request $request)
     {
-
         $validated = $request->validate(
             [
                 'name'            => 'required|string|max:255',
                 'category_id'     => 'required|exists:inventory_categories,id',
                 'quantity'        => 'required|integer|min:0',
                 'unit'            => 'nullable|string|max:50',
-                'purchase_date'   => 'nullable|date',
+                'purchase_date'   => 'required|date',
                 'warranty_expiry' => 'nullable|date|after_or_equal:purchase_date',
-                'supplier'        => 'nullable|string|max:255',
+                'supplier_id'     => 'required|exists:inventory_suppliers,id',
                 'location'        => 'nullable|string|max:255',
             ],
             [
-                'name.required' => 'Item name eka aniwarya deyak bro.',
-                'name.max'      => 'Item name akuru 255ta wada wadi wenna bae.',
-
-                'category_id.required' => 'Inventory category ekak select karanna oni.',
-                'category_id.exists'   => 'Select karapu category eka valid nemei.',
-
-                'quantity.required' => 'Quantity eka aniwarya.',
-                'quantity.integer'  => 'Quantity eka integer value ekak wenna oni.',
-                'quantity.min'      => 'Quantity eka 0ta wada adu wenna bae.',
-
-                'purchase_date.date' => 'Purchase date eka hari format ekakata thiyanna.',
+                'name.required'        => 'Item name is required.',
+                'category_id.required' => 'Category is required.',
+                'category_id.exists'   => 'Selected category is invalid.',
+                'quantity.required'    => 'Quantity is required.',
+                'quantity.min'         => 'Quantity must be at least 0.',
+                'purchase_date.date'   => 'Purchase date must be a valid date.',
+                'warranty_expiry.date' => 'Warranty expiry must be a valid date.',
                 'warranty_expiry.after_or_equal' =>
-                'Warranty expiry date eka purchase date ekata passe hari eka wenna oni.',
-
-                'unit.max' => 'Unit name eka akuru 50ta wada wadi wenna bae.',
-
-                'supplier.max' => 'Supplier name eka akuru 255ta wada wadi wenna bae.',
-                'location.max' => 'Location name eka akuru 255ta wada wadi wenna bae.',
+                'Warranty expiry must be after or equal to the purchase date.',
+                'supplier_id.exists' => 'Selected supplier is invalid.',
             ]
         );
         $user = User::with('school')->find(Auth::id());
@@ -73,19 +65,15 @@ class InventoryController extends Controller
                 'updateQuantity'        => 'required|integer|min:0',
                 'updateUnit'            => 'nullable|string|max:50',
                 'updateWarranty_expiry' => 'nullable|date',
-                'updateSupplier'        => 'nullable|string|max:255',
                 'Updatelocation'        => 'nullable|string|max:255',
             ],
             [
-                'inventoryId.required' => 'Inventory item eka hoyaganna bae.',
-                'inventoryId.exists'   => 'Inventory item eka valid nemei.',
-
-                'updateName.required'     => 'Item name eka aniwarya.',
-                'updateQuantity.required' => 'Quantity eka aniwarya.',
-                'updateQuantity.min'      => 'Quantity eka 0ta wada adu wenna bae.',
-
-                'updateWarranty_expiry.date' =>
-                'Warranty expiry date eka hari format ekakata thiyanna.',
+                'inventoryId.required' => 'Inventory ID is required.',
+                'inventoryId.exists'   => 'Inventory item not found.',
+                'updateName.required' => 'Item name is required.',
+                'updateQuantity.required' => 'Quantity is required.',
+                'updateQuantity.min' => 'Quantity must be at least 0.',
+                'updateWarranty_expiry.date' => 'Warranty expiry must be a valid date.',
             ]
         );
 
@@ -96,7 +84,6 @@ class InventoryController extends Controller
             'quantity'        => $validated['updateQuantity'],
             'unit'            => $validated['updateUnit'] ?? null,
             'warranty_expiry' => $validated['updateWarranty_expiry'] ?? null,
-            'supplier'        => $validated['updateSupplier'] ?? null,
             'location'        => $validated['Updatelocation'] ?? null,
         ];
 
@@ -129,5 +116,16 @@ class InventoryController extends Controller
         return redirect()
             ->back()
             ->with('success', 'Inventory item deleted successfully');
+    }
+
+    public function exportPdf()
+    {
+        $inventories = Inventory::with('category', 'supplier')->get();
+
+        // Load blade template
+        $pdf = PDF::loadView('pdf-templates.inventory.pdf', compact('inventories'));
+
+        // Download PDF
+        return $pdf->download('inventory_list(' . date('d M Y H:i:s') . ').pdf');
     }
 }

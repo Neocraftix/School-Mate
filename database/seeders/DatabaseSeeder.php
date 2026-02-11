@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MainFurnitureCategory;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -37,5 +38,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ReligionSeeder::class);
         $this->call(CivilStatusSeeder::class);
         $this->call(TeacherStatusSeeder::class);
+        $this->call(MainFurnitureCategorySeeder::class);
+        $this->call(SubFurnitureCategorySeeder::class);
+        $this->call(InventorySupplierSeeder::class);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class Student extends Model
 {
@@ -83,5 +85,17 @@ class Student extends Model
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('school', function (Builder $builder) {
+            // Check if user logged in
+            if (Auth::check()) {
+                // Only get students for logged in user's school
+                $user = Auth::user();
+                $builder->where('school_id', $user->school->id);
+            }
+        });
     }
 }

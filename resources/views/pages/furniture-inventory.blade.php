@@ -377,7 +377,7 @@
                 }
 
                 $.ajax({
-                    url: '/get-sub-categories/' + mainCategoryId,
+                    url: "{{ url('/get-sub-categories') }}/" + mainCategoryId,
                     type: 'GET',
                     success: function(response) {
 
@@ -482,6 +482,11 @@
                     <button class="btn btn-success-gradient btn-sm mt-2 mt-md-0" data-bs-toggle="modal"
                         data-bs-target="#addFurnitureModal">
                         <i class="fas fa-plus me-2"></i>Add New Furniture
+                    </button>
+
+                    <button class="btn btn-success-gradient btn-sm mt-2 mt-md-0"
+                        onclick="window.location='{{ route('furniture.pdf') }}'">
+                        📊 </i>Generate Report
                     </button>
                 </div>
                 {{-- <div class="card-body">

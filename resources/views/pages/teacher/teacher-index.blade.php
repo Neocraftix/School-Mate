@@ -873,7 +873,8 @@
                             Bulk Add Teacher
                         </button>
 
-                        <button class="btn btn-secondary" onclick="window.location='{{ route('teachers.teacherGenarateReportIndex') }}'">
+                        <button class="btn btn-secondary"
+                            onclick="window.location='{{ route('teachers.teacherGenarateReportIndex') }}'">
                             <span class="btn-icon">📥</span>
                             Generate Report
                         </button>
@@ -1089,10 +1090,13 @@
                                     <select name="district_id" class="form-control" required>
                                         <option value="">Select District</option>
                                         @foreach ($districts as $district)
-                                            <option value="{{ $district->id }}">{{ $district->zone_name }}</option>
+                                            <option value="{{ $district->id }}">
+                                                {{ trim(str_ireplace('zone', '', $district->zone_name)) }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
+
 
                                 <div class="form-group">
                                     <label>DS Division *</label>
@@ -1177,6 +1181,30 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- SUBJECT INFO --}}
+                        {{-- <div class="form-section">
+                            <h3>Subject Information</h3>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Appointed Subject *</label>
+                                    <input type="text" name="" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Most Teaching Subject 01 *</label>
+                                    <input type="text" name="" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Most Teaching Subject 02 *</label>
+                                    <input type="text" name="" class="form-control" required>
+                                </div>
+                            </div>
+                        </div> --}}
                     </div>
 
                     <div class="modal-footer">

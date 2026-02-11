@@ -130,4 +130,6 @@ return [
     'free_plan_name' => env('FREE_PLAN_NAME', 'Free plan'),
 
     'free_plan_time_duration' => env('FREE_PLAN_TIME_DURATION', 7),
+
+    'WHERE_SCHOOL'
 ];

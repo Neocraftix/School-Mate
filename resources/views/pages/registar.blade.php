@@ -726,7 +726,7 @@
 
                 if (provinceId) {
                     $.ajax({
-                        url: '/get-zones/' + provinceId,
+                        url: "{{ url('/get-zones') }}/" + provinceId,
                         type: 'GET',
                         success: function(data) {
                             $('#zoneSelect').html(
@@ -750,7 +750,7 @@
 
                 if (zoneId) {
                     $.ajax({
-                        url: '/get-divisions/' + zoneId,
+                        url: "{{ url('/get-divisions') }}/" + zoneId,
                         type: 'GET',
                         success: function(data) {
                             $('#divisionSelect').html(

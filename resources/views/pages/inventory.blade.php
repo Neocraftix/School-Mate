@@ -98,6 +98,23 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
+        .btn-green-custom {
+            background: linear-gradient(135deg, #2563eb 0%, #1e3a8a 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            color: #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-green-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.6);
+        }
+
+
         .btn-primary-custom:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
@@ -349,7 +366,6 @@
             const inventorieQuantity = document.getElementById('inventorieQuantity' + inventoryID).innerText;
             const inventorieUnit = document.getElementById('inventorieUnit' + inventoryID).innerText;
             const inventorieWarranty_expiry = document.getElementById('inventorieWarranty_expiry' + inventoryID).innerText;
-            const inventorieSupplier = document.getElementById('inventorieSupplier' + inventoryID).innerText;
             const inventorieLocation = document.getElementById('inventorieLocation' + inventoryID).innerText;
 
 
@@ -358,7 +374,6 @@
             document.getElementById('updateItemQuantity').value = inventorieQuantity;
             document.getElementById('updateItemUnit').value = inventorieUnit;
             document.getElementById('updateItemWarrantyExpiry').value = inventorieWarranty_expiry;
-            document.getElementById('updateItemSupplier').value = inventorieSupplier;
             document.getElementById('updateItemLocation').value = inventorieLocation;
 
             // bootstrap modal instance eka hadala show karanawa
@@ -388,6 +403,10 @@
                     <div class="col-md-4 text-md-end mt-3 mt-md-0">
                         <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#addItemModal">
                             <i class="fas fa-plus-circle me-2"></i>Add New Item
+                        </button>
+                        <br><br>
+                        <button class="btn btn-green-custom" onclick="window.location='{{ route('inventories.pdf') }}'">
+                            📊 </i>Generate Report
                         </button>
                     </div>
                 </div>
@@ -469,7 +488,7 @@
             </div> --}}
 
             <!-- Inventory Table -->
-            <div class="inventory-table-container">
+            <div class="inventory-table-container" id="inventory-table">
                 <div class="table-responsive">
                     <table class="table inventory-table">
                         <thead>
@@ -496,7 +515,7 @@
                                     <td>{{ $inventorie->purchase_date }}</td>
                                     <td id="inventorieWarranty_expiry{{ $inventorie->id }}">
                                         {{ $inventorie->warranty_expiry }}</td>
-                                    <td id="inventorieSupplier{{ $inventorie->id }}">{{ $inventorie->supplier }}</td>
+                                    <td>{{ $inventorie->supplier->supplier_name }}</td>
                                     <td id="inventorieLocation{{ $inventorie->id }}">{{ $inventorie->location }}</td>
                                     <td class="text-center">
                                         <button class="btn-action btn-edit" title="Edit"
@@ -570,7 +589,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Supplier *</label>
-                                    <input type="text" class="form-control" id="itemSupplier" name="supplier">
+                                    <select class="form-select" id="" name="supplier_id" required>
+                                        <option value="">Select Supplier</option>
+                                        @foreach ($suppliers as $supplier)
+                                            <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Location *</label>
@@ -630,11 +654,6 @@
                                         name="updateWarranty_expiry">
                                 </div>
 
-                                <div class="col-md-6">
-                                    <label class="form-label">Supplier *</label>
-                                    <input type="text" class="form-control" id="updateItemSupplier"
-                                        name="updateSupplier">
-                                </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Location *</label>
                                     <input type="text" class="form-control" id="updateItemLocation"

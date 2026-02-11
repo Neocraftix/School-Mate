@@ -33,12 +33,15 @@ Route::get('/get-sub-categories/{mainCategoryId}', [FurnitureController::class, 
 Route::post('/furniture/store', [FurnitureController::class, 'storeFurniture'])->name('furniture.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/furniture/update', [FurnitureController::class, 'updateFurniture'])->name('furniture.update')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::delete('/furniture/delete/{furnitureId}', [FurnitureController::class, 'deleteFurniture'])->name('furniture.delete')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/furniture/pdf', [FurnitureController::class, 'exportPdf'])->name('furniture.pdf')->middleware(['role:Supper Admin,Admin,Data Entry']);
 
 
 Route::get('/inventories', [InventoryController::class, 'index'])->name('inventories.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/inventories/store', [InventoryController::class, 'store'])->name('inventories.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/inventories/update', [InventoryController::class, 'update'])->name('inventories.update')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->name('inventories.destroy')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/inventories/pdf', [InventoryController::class, 'exportPdf'])->name('inventories.pdf')->middleware(['role:Supper Admin,Admin,Data Entry']);
+
 
 
 Route::get('/students', [StudentController::class, 'index'])->name('students.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
