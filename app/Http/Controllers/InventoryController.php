@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Models\Inventory;
 use App\Models\InventoryCategory;
 use App\Models\InventorySupplier;
@@ -122,10 +123,12 @@ class InventoryController extends Controller
     {
         $inventories = Inventory::with('category', 'supplier')->get();
 
+        $reportId = CommonHelper::generateAttendanceReport('Inventory Report');
+
         // Load blade template
-        $pdf = PDF::loadView('pdf-templates.inventory.pdf', compact('inventories'));
+        $pdf = PDF::loadView('pdf-templates.inventory.pdf', compact('inventories', 'reportId'));
 
         // Download PDF
-        return $pdf->download('inventory_list(' . date('d M Y H:i:s') . ').pdf');
+        return $pdf->download('inventory_list_(' . date('d M Y H:i:s') . ').pdf');
     }
 }

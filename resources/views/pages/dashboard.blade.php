@@ -488,6 +488,19 @@
                 </div>
             </div>
 
+             <div class="nav-card">
+                <div class="card-header">
+                    <div class="icon">💵</div>
+                    <div class="card-badge">Bata</div>
+                </div>
+                <h3>Budget Plan</h3>
+                <p>Manage All Budget</p>
+                {{-- <div class="card-footer">
+                    <span class="card-count">pieces</span>
+                    <span class="card-arrow">→</span>
+                </div> --}}
+            </div>
+
             {{-- <div class="nav-card">
                 <div class="card-header">
                     <div class="icon">⚡</div>

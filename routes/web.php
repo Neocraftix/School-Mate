@@ -43,7 +43,6 @@ Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->nam
 Route::get('/inventories/pdf', [InventoryController::class, 'exportPdf'])->name('inventories.pdf')->middleware(['role:Supper Admin,Admin,Data Entry']);
 
 
-
 Route::get('/students', [StudentController::class, 'index'])->name('students.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/students/store', [StudentController::class, 'store'])->name('students.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::get('/students/student/details/{studentId}', [StudentController::class, 'studentDetails'])->name('students.studendDetails')->middleware(['role:Supper Admin,Admin,Data Entry']);
@@ -52,6 +51,7 @@ Route::post('/students/genarate-report/filter', [StudentController::class, 'stud
 Route::get('/students/update/index/{studentId}', [StudentController::class, 'studentUpdateIndex'])->name('students.studentUpdateIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/students/update/{studentId}', [StudentController::class, 'studentUpdate'])->name('students.studentUpdate')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::delete('/students/delete/{studentId}', [StudentController::class, 'studentDelete'])->name('students.studentDelete')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/students/student/report/pdf/{studentId}', [StudentController::class, 'studentReportPdf'])->name('students.studentReportPdf')->middleware(['role:Supper Admin,Admin,Data Entry']);
 
 Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/teachers/store', [TeacherController::class, 'store'])->name('teachers.store')->middleware(['role:Supper Admin,Admin,Data Entry']);
@@ -62,7 +62,12 @@ Route::delete('/teachers/delete/{teacherID}', [TeacherController::class, 'teache
 Route::get('/teachers/genarate-report/index', [TeacherController::class, 'teacherGenarateReportIndex'])->name('teachers.teacherGenarateReportIndex')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/teachers/genarate-report/filter', [TeacherController::class, 'teacherGanarateReportFilter'])->name('teachers.teacherGanarateReportFilter')->middleware(['role:Supper Admin,Admin,Data Entry']);
 Route::post('/teachers/find-retirement', [TeacherController::class, 'teacherRetirement'])->name('teachers.retirement')->middleware(['role:Supper Admin,Admin,Data Entry']);
+Route::get('/teachers/teacher/report/pdf/{teacherID}', [TeacherController::class, 'teacherReportPdf'])->name('teachers.teacherReportPdf')->middleware(['role:Supper Admin,Admin,Data Entry']);
 
 Route::get('/settings/admin-management', [SettingsController::class, 'adminManagementIndex'])->name('settings.adminManagementIndex')->middleware(['role:Supper Admin']);
 Route::post('/admin/create', [AuthController::class, 'createAdmin'])->name('admin.createAdmin')->middleware(['role:Supper Admin']);
 Route::delete('/admin/delete/{adminID}', [AuthController::class, 'adminDelete'])->name('admin.adminDelete')->middleware(['role:Supper Admin']);
+
+Route::get('/settings/school-information', [SettingsController::class, 'schoolInformationIndex'])->name('settings.schoolInformationIndex')->middleware(['role:Supper Admin,Admin']);
+Route::post('/settings/school-information/update', [SettingsController::class, 'schoolInformationUpdate'])->name('settings.schoolInformationUpdate')->middleware(['role:Supper Admin']);
+Route::get('/settings/school-information/pdf', [SettingsController::class, 'schoolInformationPdf'])->name('settings.schoolInformationPdf')->middleware(['role:Supper Admin,Admin']);

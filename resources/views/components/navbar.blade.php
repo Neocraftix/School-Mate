@@ -3,7 +3,7 @@
     <div class="nav-container">
         <div class="nav-logo" onclick="window.location.href='{{ url('/school-dashboard') }}'">
             <span class="logo-icon">🏫</span>
-            <span class="logo-text">School Mate</span>
+            <span class="logo-text">SchoolMate</span>
         </div>
 
         <div class="nav-menu" id="nav-menu">
@@ -60,6 +60,12 @@
                         <a href="{{ route('settings.adminManagementIndex') }}">
                             <i class="dropdown-icon">⚙️</i>
                             Settings
+                        </a>
+                    @endif
+                    @if (auth()->user()->role->role_name === 'Supper Admin' || auth()->user()->role->role_name === 'Admin')
+                        <a href="{{ route('settings.schoolInformationIndex') }}">
+                            <i class="dropdown-icon">⛪</i>
+                            School Information
                         </a>
                     @endif
                     <a href="{{ route('logout') }}">

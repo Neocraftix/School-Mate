@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class School extends Model
 {
     protected $table = 'school';
-    
+
     protected $fillable = [
         'school_name',
         'census_number',
@@ -22,6 +22,30 @@ class School extends Model
         'school_status',
         'payment_id',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(EducationDivision::class, 'division_id');
+    }
+
+    public function paymentPlane()
+    {
+        return $this->belongsTo(PaymentPlan::class, 'payment_id');
+    }
+
+    public function schoolType()
+    {
+        return $this->belongsTo(SchoolType::class, 'school_type');
+    }
+
+    public function status(){
+        return $this->belongsTo(Status::class,'school_status');
+    }
 
     public function students()
     {

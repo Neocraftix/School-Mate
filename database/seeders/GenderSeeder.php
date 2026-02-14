@@ -14,7 +14,7 @@ class GenderSeeder extends Seeder
      */
     public function run(): void
     {
-        $genders = ['Male', 'Female', 'Other'];
+        $genders = ['Male', 'Female'];
 
         foreach ($genders as $gender) {
             Gender::firstOrCreate([

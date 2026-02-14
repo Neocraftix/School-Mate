@@ -1330,7 +1330,7 @@
                         <span class="btn-icon">✏️</span>
                         Edit Profile
                     </button> --}}
-                        <button class="btn btn-secondary" onclick="printBasicInfo();">
+                        <button class="btn btn-secondary" onclick="window.location='{{ route('students.studentReportPdf',$student->id) }}'">
                             <span class="btn-icon">📥</span>
                             Download Report
                         </button>

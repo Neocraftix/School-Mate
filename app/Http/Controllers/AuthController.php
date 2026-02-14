@@ -80,6 +80,21 @@ class AuthController extends Controller
     public function adminDelete($adminID)
     {
         $admin = User::findOrFail($adminID);
+
+        if ($admin->role_id === 1) { // Assuming role_id 1 corresponds to 'super Admin'
+
+            $superAdminCount = User::where('school_id', $admin->school_id)
+                ->where('role_id', '1') // Super Admin role
+                ->count();
+
+            // If only one super admin exists, prevent deletion
+            if ($superAdminCount <= 1) {
+                return redirect()
+                    ->back()
+                    ->with('info', 'At least one Super Admin must remain in this school.');
+            }
+        }
+
         $admin->delete();
 
         return redirect()

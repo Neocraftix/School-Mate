@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Models\CivilStatus;
 use App\Models\EducationZone;
 use App\Models\Ethnicity;
@@ -11,6 +12,7 @@ use App\Models\Teacher;
 use App\Models\TeacherStatus;
 use App\Models\Title;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +27,11 @@ class TeacherController extends Controller
         $religions = Religion::all();
         $districts =  EducationZone::all();
         $civilStatuses = CivilStatus::all();
+        $teacherCount = Teacher::count();
 
         $teachers = Teacher::with('teacherStatus')->paginate(25);
 
-        return view('pages.teacher.teacher-index', compact('teachers', 'titles', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
+        return view('pages.teacher.teacher-index', compact('teachers', 'titles', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses', 'teacherCount'));
     }
 
     public function store(Request $request)
@@ -57,6 +60,10 @@ class TeacherController extends Controller
             'spouse_name' => 'nullable|string|max:255',
             'children_names' => 'nullable|string|max:500',
             'children_dobs'  => 'nullable|string|max:500',
+
+            'appointed_subject' => 'required|string|max:255',
+            'most_teaching_subject_01' => 'nullable|string|max:255',
+            'most_teaching_subject_02' => 'nullable|string|max:255',
 
             'ncoe'    => 'nullable|string|max:255',
             'degree'  => 'nullable|string|max:255',
@@ -238,5 +245,18 @@ class TeacherController extends Controller
             ->get();
 
         return view('pages.teacher.teacher-report', compact('teachers', 'ethnicityes', 'genders', 'religions', 'districts', 'civilStatuses'));
+    }
+
+    public function teacherReportPdf($teacherID)
+    {
+        $teacher = Teacher::with(['title', 'ethnicity', 'gender', 'religion', 'district', 'civilStatus', 'teacherStatus'])->findOrFail($teacherID);
+
+        $reportId = CommonHelper::generateAttendanceReport('Furniture Inventory Report');
+
+        $pdf = PDF::loadView('pdf-templates.teacher.teacher-report', compact('teacher', 'reportId'));
+
+        $safe_filename = preg_replace('/[^A-Za-z0-9_\-]/', '_', $teacher->full_name);
+
+        return $pdf->download('teacher-report_' . $safe_filename . '_(' . date('d M Y H:i:s') . ').pdf');
     }
 }

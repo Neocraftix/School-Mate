@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Models\Assistance;
 use App\Models\BloodType;
 use App\Models\Gender;
@@ -11,6 +12,7 @@ use App\Models\Student;
 use App\Models\StudentStatus;
 use App\Models\Transport;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +27,7 @@ class StudentController extends Controller
         $skills = Skill::all();
         $assistances = Assistance::all();
         $grades = Grade::all();
+        $studentCount = Student::count();
 
         return view('pages.student.student-index', compact(
             'students',
@@ -33,7 +36,8 @@ class StudentController extends Controller
             'bloodTypes',
             'skills',
             'assistances',
-            'grades'
+            'grades',
+            'studentCount'
         ));
     }
 
@@ -71,7 +75,7 @@ class StudentController extends Controller
 
     public function studentDetails($studentId)
     {
-        $student = Student::with(['grade', 'studentStatus', 'grade', 'assistance', 'bloodType', 'transport'])->findOrFail($studentId);
+        $student = Student::with(['grade', 'studentStatus', 'assistance', 'bloodType', 'transport'])->findOrFail($studentId);
         return view('pages.student.student-details', compact('student'));
     }
 
@@ -261,5 +265,28 @@ class StudentController extends Controller
         );
 
         return back()->with('success', "Student '{$student->child_name}' deleted successfully.");
+    }
+
+    public function studentReportPdf($studentId)
+    {
+        $student = Student::findOrFail($studentId);
+
+        $isFemale = (strtolower($student->gender->gender) == 'female');
+
+        $theme = [
+            'primary'   => $isFemale ? '#db2777' : '#0ea5e9',
+            'secondary' => $isFemale ? '#fdf2f8' : '#f0f9ff',
+            'border'    => $isFemale ? '#fbcfe8' : '#bae6fd',
+            'accent'    => $isFemale ? '#9d174d' : '#0c4a6e',
+            'isFemale'  => $isFemale
+        ];
+
+        $reportId = CommonHelper::generateAttendanceReport('Furniture Inventory Report');
+
+        $pdf = PDF::loadView('pdf-templates.student.student-report', compact('student', 'theme', 'reportId'));
+
+        $safe_filename = preg_replace('/[^A-Za-z0-9_\-]/', '_', $student->child_name);
+
+        return $pdf->download('Student_Report_' . $safe_filename . '_(' . date('d M Y H:i:s') . ').pdf');
     }
 }

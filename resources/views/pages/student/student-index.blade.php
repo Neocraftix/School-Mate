@@ -853,7 +853,7 @@
                 </div>
                 <div class="header-stats">
                     <div class="stat-card">
-                        <div class="stat-number">1,245</div>
+                        <div class="stat-number">{{ $studentCount }}</div>
                         <div class="stat-label">Total Students</div>
                     </div>
                     <div class="stat-card">
@@ -872,10 +872,10 @@
                             <span class="btn-icon">➕</span>
                             Add Student
                         </button>
-                        <button class="btn btn-success" onclick="showModal('bulk-add-modal')">
+                        {{-- <button class="btn btn-success" onclick="showModal('bulk-add-modal')">
                             <span class="btn-icon">📊</span>
                             Bulk Add Students
-                        </button>
+                        </button> --}}
                         <button class="btn btn-secondary"
                             onclick="window.location='{{ route('students.studentGanarateReportIndex') }}'">
                             <span class="btn-icon">📥</span>

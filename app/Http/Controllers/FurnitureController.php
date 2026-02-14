@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Models\Furniture;
 use App\Models\FurnitureSubCategory;
 use App\Models\MainFurnitureCategory;
@@ -120,10 +121,12 @@ class FurnitureController extends Controller
     {
         $furnitures = Furniture::get();
 
+        $reportId = CommonHelper::generateAttendanceReport('Furniture Inventory Report');
+
         // Load blade template
-        $pdf = PDF::loadView('pdf-templates.furniture.pdf', compact('furnitures'));
+        $pdf = PDF::loadView('pdf-templates.furniture.pdf', compact('furnitures', 'reportId'));
 
         // Download PDF
-        return $pdf->download('furniture_list(' . date('d M Y H:i:s') . ').pdf');
+        return $pdf->download('furniture_list_(' . date('d M Y H:i:s') . ').pdf');
     }
 }

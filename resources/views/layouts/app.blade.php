@@ -21,6 +21,8 @@
 
     {{-- Page-specific js --}}
     @stack('js')
+
+    @include('components.footer')
 </body>
 
 </html>

@@ -1331,7 +1331,8 @@
                         <span class="btn-icon">✏️</span>
                         Edit Profile
                     </button> --}}
-                        <button class="btn btn-secondary" onclick="printBasicInfo();">
+                        <button class="btn btn-secondary"
+                            onclick="window.location='{{ route('teachers.teacherReportPdf', $teacher->id) }}'">
                             <span class="btn-icon">📥</span>
                             Download Report
                         </button>
@@ -1540,6 +1541,27 @@
                                 <div class="info-item">
                                     <span class="info-label">Other:</span>
                                     <span class="info-value">{{ $teacher->other ?? '' }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-card guardian">
+                            <h3 class="info-card-title">
+                                <span class="title-icon">📖</span>
+                                Subject Information
+                            </h3>
+                            <div class="info-list">
+                                <div class="info-item">
+                                    <span class="info-label">Appointed Subject:</span>
+                                    <span class="info-value">{{ $teacher->appointed_subject ?? '' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Most Teaching Subject 01:</span>
+                                    <span class="info-value">{{ $teacher->most_teaching_subject_01 ?? '' }}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Most Teaching Subject 02:</span>
+                                    <span class="info-value">{{ $teacher->most_teaching_subject_02 ?? '' }}</span>
                                 </div>
                             </div>
                         </div>

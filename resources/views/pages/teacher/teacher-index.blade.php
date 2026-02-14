@@ -853,7 +853,7 @@
                 </div>
                 <div class="header-stats">
                     <div class="stat-card">
-                        <div class="stat-number">1,245</div>
+                        <div class="stat-number">{{ $teacherCount }}</div>
                         <div class="stat-label">Total Teachers</div>
                     </div>
                 </div>
@@ -868,10 +868,10 @@
                             <span class="btn-icon">➕</span>
                             Add Teacher
                         </button>
-                        <button class="btn btn-success" onclick="showModal('bulk-add-modal')">
+                        {{-- <button class="btn btn-success" onclick="showModal('bulk-add-modal')">
                             <span class="btn-icon">📊</span>
                             Bulk Add Teacher
-                        </button>
+                        </button> --}}
 
                         <button class="btn btn-secondary"
                             onclick="window.location='{{ route('teachers.teacherGenarateReportIndex') }}'">
@@ -1183,28 +1183,28 @@
                         </div>
 
                         {{-- SUBJECT INFO --}}
-                        {{-- <div class="form-section">
+                        <div class="form-section">
                             <h3>Subject Information</h3>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Appointed Subject *</label>
-                                    <input type="text" name="" class="form-control" required>
+                                    <input type="text" name="appointed_subject" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Most Teaching Subject 01 *</label>
-                                    <input type="text" name="" class="form-control" required>
+                                    <input type="text" name="most_teaching_subject_01" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group">
                                     <label>Most Teaching Subject 02 *</label>
-                                    <input type="text" name="" class="form-control" required>
+                                    <input type="text" name="most_teaching_subject_02" class="form-control" required>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
 
                     <div class="modal-footer">
