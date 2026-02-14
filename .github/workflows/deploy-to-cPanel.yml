@@ -3,42 +3,43 @@ name: Deploy Laravel to cPanel via FTP
 on:
   push:
     branches:
-      - main  # main branch ekata commit unama deploy wenawa
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo
+      # Checkout repo
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup PHP
+      # Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # oyage PHP version eka
+          php-version: '8.2'
           extensions: mbstring, bcmath, pdo_mysql
 
-      # 3️⃣ Install Composer dependencies
+      # Install Composer
       - name: Install Composer Dependencies
         run: composer install --no-dev --prefer-dist --optimize-autoloader
 
-      # 4️⃣ Build Assets (if using Laravel Mix/Vite)
+      # Build Assets (comment this if not needed)
       - name: Build Assets
         run: |
           npm install
           npm run build
 
-      # 5️⃣ Deploy via FTP to cPanel
+      # Deploy via FTP
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./                  # repo root
-          server-dir: /home/zlymtgtv/schoolmatelk.com
+          protocol: ftp
+          port: 21
+          local-dir: ./
+          server-dir: /home/zlymtgtv/schoolmatelk.com/
           dry-run: false
-          git-ftp-args: --insecure
