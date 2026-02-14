@@ -42,4 +42,4 @@ jobs:
           port: 21
           security: loose
           local-dir: ./
-          server-dir: /home/zlymtgtv/schoolmatelk.com/
+          server-dir: /
